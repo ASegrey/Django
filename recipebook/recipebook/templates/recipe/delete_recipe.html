@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    Вы уверены, что хотите удалить этот рецепт?
+    <p><a href="{% url 'book' %}" class="btn btn-secondary">Отмена</a></p>
+    <p><a href="{% url ''recipes:delete_recipe' recipe.id %}" class="btn btn-danger">Удалить</a></p>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container text-center">
+        <h1 class="display-4">Добро пожаловать на сайт рецептов!</h1>
+        <p class="lead">Здесь вы найдете множество вкусных рецептов.</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        {% if latest_recipes_list %}
+            {% for recipe in latest_recipes_list %}
+            <div class="col-sm-6 col-md-4">
+                <div class="card mb-3">
+                    <img src="{{ recipe.recipe_foto }}" class="card-img-top" alt="{{ recipe.recipe_title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.recipe_title }}</h5>
+                        <p class="card-text">{{ recipe.recipe_text|truncatechars:50 }}</p>
+                        <a href="{% url 'recipe:detail' recipe.id %}" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {%else%}
+        <div class="col-sm-6 col-md-4">
+            <div class="card mb-3">
+                <p>В базе данных пока нет рецептов. Попробуйте добавить свой!</p>
+                <form action="{% url 'recipes:add_recipe' %}" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Добавить рецепт</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="text-center">
+    {% comment %}
+    <a href="{% url 'all_recipes' %}" class="btn btn-success">Посмотреть все рецепты</a>
+    {% endcomment %}
+</div>
+{% endblock %}
+{% comment %} {% extends 'base.html' %}
+
+{% block title %}Новые рецепты{% endblock  %}
+
+{% block content %}
+    {% if latest_recipes_list %}
+        {% for a in latest_recipes_list%}
+            <a href ="{% url 'recipes:detail' a.id %}">{{a.recipe_title}}</a>
+        {%endfor%}
+    {%else%}
+        <p>В базе данных пока нет рецептов. Попробуйте добавить свой!</p>
+    {% endif %}
+    
+    <form action="{% url 'recipes:add_recipe' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Добавить рецепт</button>
+    </form>
+
+{% endblock  %} {% endcomment %}
