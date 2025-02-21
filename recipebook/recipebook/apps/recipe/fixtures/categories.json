@@ -1,0 +1,7 @@
+[
+    {"model": "recipe.category", "pk": 1, "fields": {"category": "Салаты"}},
+    {"model": "recipe.category", "pk": 2, "fields": {"category": "Первые блюда"}},
+    {"model": "recipe.category", "pk": 3, "fields": {"category": "Вторые блюда"}},
+    {"model": "recipe.category", "pk": 4, "fields": {"category": "Десерты"}},
+    {"model": "recipe.category", "pk": 5, "fields": {"category": "Напитки"}}
+]

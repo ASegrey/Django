@@ -2,7 +2,19 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+    
+    
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
@@ -27,7 +39,7 @@ class Category(models.Model):
 class Recipe(models.Model):
     author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     recipe_title = models.CharField('Название рецепта', max_length = 200)
-    recipe_foto = models.ImageField('Фото рецепта', upload_to='photos/')
+    recipe_foto = models.ImageField('Фото рецепта', upload_to='recipebook/apps/recipe/photos/')
     recipe_ingredients = models.TextField('Ингридиенты рецепта')
     recipe_text = models.TextField('Описание рецепта')
     recipe_time = models.TimeField('Время приготовления')
