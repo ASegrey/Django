@@ -2,15 +2,22 @@
 
 {% block title %} {{recipes.recipe_title}} {% endblock  %}
 {% block content %}
-
-    <h2>{{recipes.recipe_title}}</h2>
-    <p>{{recipes.recipe_ingredients}}</p>
-    <p>{{recipes.recipe_text}}</p>
-    <em>{{recipes.recipe_time}}</em><br>
-    <em>{{recipes.pub_date}}</em><br>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container text-center">
+            <h5 class="display-4">Название рецепта: {{recipes.recipe_title}}</h5>
+        </div>
+    </div>
+    <img src="{{ recipes.recipe_foto.url }}" class="card-img-top" alt="{{ recipes.recipe_title }}">
+    <hr>
+    <p>Ингридиенты рецепта: {{recipes.recipe_ingredients}}</p>
+    <p>Описание рецепта: {{recipes.recipe_text}}</p>
+    <p>Шаги приготовления: {{recipes.recipe_preparation}}</p>
+    <em>Время приготовления: {{recipes.recipe_time}}</em><br>
+    <em>Дата публикации {{recipes.pub_date}}</em><br>
+    <em>Опубликовал {{recipes.author}}</em><br>
 
     {%if recipes.was_published_recent%}
-        Новый рецепт
+    <em>Состояние - Новый рецепт</em><br>
     {%endif%}
 
     <hr>
@@ -35,5 +42,8 @@
         <textarea name="text" required="" placeholder="Текст комментария" cols="30" rows="10"> </textarea><br>
         <button type="submit"> Оставить комментарий
         </button>
-    </form> 
+    </form>
+    {% if auth_state %}
+        <a href="{% url 'recipes:delete_recipe' recipes.id %}" class="btn btn-danger">Удалить рецепт</a>
+    {% endif %}
 {% endblock  %}

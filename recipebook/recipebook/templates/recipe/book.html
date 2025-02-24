@@ -7,6 +7,9 @@
     <div class="container text-center">
         <h1 class="display-4">Добро пожаловать на сайт рецептов!</h1>
         <p class="lead">Здесь вы найдете множество вкусных рецептов.</p>
+        {% if request.user.is_authenticated %}
+        <p class="lead">Пользователь: {{ request.user }}</p>
+        {% endif %}
     </div>
 </div>
 
@@ -16,10 +19,12 @@
             {% for recipe in latest_recipes_list %}
             <div class="col-sm-6 col-md-4">
                 <div class="card mb-3">
-                    <img src="{{ recipe.recipe_foto }}" class="card-img-top" alt="{{ recipe.recipe_title }}">
+                    <h5 class="card-title">{{ recipe.recipe_title }}</h5>
+                    <img src="{{ recipe.recipe_foto.url }}" class="card-img-top" alt="{{ recipe.recipe_title }}">
                     <div class="card-body">
-                        <h5 class="card-title">{{ recipe.recipe_title }}</h5>
-                        <p class="card-text">{{ recipe.recipe_text|truncatechars:50 }}</p>
+                        <hr>
+                        <p  class="card-text">Описание: {{ recipe.recipe_text|truncatechars:50 }}</p>
+                        <hr>
                         <a href="{% url 'recipes:detail' recipe.id %}" class="btn btn-primary">Подробнее</a>
                     </div>
                 </div>

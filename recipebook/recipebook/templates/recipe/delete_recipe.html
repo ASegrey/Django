@@ -1,7 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    Вы уверены, что хотите удалить этот рецепт?
-    <p><a href="{% url 'book' %}" class="btn btn-secondary">Отмена</a></p>
-    <p><a href="{% url ''recipes:delete_recipe' recipe.id %}" class="btn btn-danger">Удалить</a></p>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container text-center">
+            <p class="lead"> <h1>Вы уверены, что хотите удалить этот рецепт?</h1></p>
+            <hr>
+            <p><form method="POST">  
+                {% csrf_token %} 
+                <a href="{% url 'recipes:index' %}" class="btn btn-secondary">Отмена</a>
+                <button type="submit" class="btn btn-danger">Удалить</button>
+            </form></p> 
+        </div>
+    </div>
+
 {% endblock %}

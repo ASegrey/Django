@@ -6,10 +6,11 @@ from django.contrib.auth.forms import UserCreationForm
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = ['recipe_title', 'recipe_foto', 'recipe_ingredients', 'recipe_text','category', 'recipe_time']
+        fields = ['recipe_title', 'recipe_foto', 'recipe_ingredients', 'recipe_text','recipe_preparation','category', 'recipe_time']
         widgets = {
             'recipe_ingredients': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Ингредиенты', 'rows': 5}),
             'recipe_text': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Описание', 'rows': 5}),
+            'recipe_preparation': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Шаги приготовления', 'rows': 7}),
             'recipe_time': forms.TimeInput(attrs={'class': 'form-control', 'placeholder': 'Время приготовления'})
         }
         
@@ -34,10 +35,11 @@ class RecipeForm(forms.ModelForm):
 class EditRecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = ['recipe_ingredients', 'recipe_text', 'recipe_time']
+        fields = ['recipe_ingredients', 'recipe_text','recipe_preparation','recipe_time']
         widgets = {
             'recipe_ingredients': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Ингредиенты', 'rows': 5}),
-            'recipe_text': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Описание', 'rows': 5})
+            'recipe_text': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Описание', 'rows': 5}),
+            'recipe_preparation': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Шаги приготовления', 'rows': 7})
         }
         
 class SignUpForm(UserCreationForm):
