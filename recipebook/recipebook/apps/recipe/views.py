@@ -11,11 +11,33 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
+# def index(request):
+#     latest_recipes_list = Recipe.objects.order_by('-pub_date')[:10]
+#     return render(request, 'recipe/book.html',{'latest_recipes_list': latest_recipes_list})
 def index(request):
-    latest_recipes_list = Recipe.objects.order_by('-pub_date')[:10]
-    return render(request, 'recipe/book.html',{'latest_recipes_list': latest_recipes_list})
+    # # Получаем все рецепты, отсортированные по дате публикации
+    recipes_list = Recipe.objects.order_by('-pub_date')
+    # Создаем объект Paginator с количеством объектов на одной странице
+    paginator = Paginator(recipes_list, 10)
+    # Получаем номер текущей страницы из GET-запроса
+    page_number = request.GET.get('page', 1)
+    try:
+        # Извлекаем текущую страницу объектов
+        page = paginator.page(page_number)
+    except PageNotAnInteger:
+        # Если страница не является числом, возвращаем первую страницу
+        page = paginator.page(1)
+    except EmptyPage:
+        # Если запрашиваемая страница больше максимального числа страниц, возвращаем последнюю страницу результатов
+        page = paginator.page(paginator.num_pages)
+    context = {
+        'latest_recipes_list': page,
+        'paginator': paginator,
+        }
+    return render(request, 'recipe/book.html', context)
 
 
 def detail(request, recipe_id):

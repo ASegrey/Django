@@ -55,9 +55,26 @@
     </div>
 </div>
 
-<div class="text-center">
-    {% comment %}
-    <a href="{% url 'all_recipes' %}" class="btn btn-success">Посмотреть все рецепты</a>
-    {% endcomment %}
+<!-- Блок с кнопками пагинации -->
+<div class="pagination">
+    <h1 class="lead">
+        <strong>
+    {% if recipes_page.has_previous %}
+        <a href="{% url 'recipes:index' %}?page={{ recipes_page.previous_page_number }}">Предыдущая</a>
+    {% endif %}
+    
+    {% for num in paginator.page_range %}
+        {% if recipes_page.number == num %}
+            <span class="current-page">{{ num }}</span>
+        {% else %}
+            <a href="{% url 'recipes:index' %}?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+    
+    {% if recipes_page.has_next %}
+        <a href="{% url 'recipes:index' %}?page={{ recipes_page.next_page_number }}">Следующая</a>
+    {% endif %}
+        </strong>
+    </h1>
 </div>
 {% endblock %}
