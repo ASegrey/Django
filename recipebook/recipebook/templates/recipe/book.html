@@ -25,7 +25,9 @@
                         <hr>
                         <p  class="card-text">Описание: {{ recipe.recipe_text|truncatechars:50 }}</p>
                         <hr>
+                        <p class="lead">Категория {{recipe.category}}</p>
                         <a href="{% url 'recipes:detail' recipe.id %}" class="btn btn-primary">Подробнее</a>
+                        <em>Опубликовал {{recipe.author}}</em><br>
                     </div>
                 </div>
             </div>

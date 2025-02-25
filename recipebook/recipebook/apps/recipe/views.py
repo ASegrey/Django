@@ -65,8 +65,11 @@ def add_recipe(request):
 def edit_recipe(request, recipe_id):
     recipe = get_object_or_404(Recipe, id = recipe_id)
     if recipe.author == request.user:
-        form = EditRecipeForm(instance=recipe)
-        return render(request, 'recipe/edit_recipe.html', {'recipe': recipe, 'form': form})
+        if request.method == 'POST':
+            return HttpResponseRedirect(reverse('recipes:detail',args=(recipe.id,)))
+        else:
+            form = EditRecipeForm(instance=recipe)
+            return render(request, 'recipe/edit_recipe.html', {'recipe': recipe, 'form': form})
     else:
         return HttpResponseForbidden()
 

@@ -5,6 +5,7 @@
     <div class="jumbotron jumbotron-fluid">
         <div class="container text-center">
             <h5 class="display-4">Название рецепта: {{recipes.recipe_title}}</h5>
+            <p class="lead">Категория {{recipes.category}}</p>
         </div>
     </div>
     <img src="{{ recipes.recipe_foto.url }}" class="card-img-top" alt="{{ recipes.recipe_title }}">
@@ -43,6 +44,10 @@
         <button type="submit"> Оставить комментарий
         </button>
     </form>
+    {% if auth_state %}
+        <a href="{% url 'recipes:edit_recipe' recipes.id %}" class="btn btn-primary">Изменить рецепт</a>
+    {% endif %}
+        <a href="{% url 'recipes:index' %}" class="btn btn-secondary">На главную</a>
     {% if auth_state %}
         <a href="{% url 'recipes:delete_recipe' recipes.id %}" class="btn btn-danger">Удалить рецепт</a>
     {% endif %}
