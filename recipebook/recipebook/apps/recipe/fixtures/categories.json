@@ -1,7 +1,42 @@
 [
-    {"model": "recipe.category", "pk": 1, "fields": {"category": "Салаты"}},
-    {"model": "recipe.category", "pk": 2, "fields": {"category": "Первые блюда"}},
-    {"model": "recipe.category", "pk": 3, "fields": {"category": "Вторые блюда"}},
-    {"model": "recipe.category", "pk": 4, "fields": {"category": "Десерты"}},
-    {"model": "recipe.category", "pk": 5, "fields": {"category": "Напитки"}}
+    {
+        "model": "recipe.category",
+        "pk": 1,
+        "fields": {
+            "title": "Салаты",
+            "slug": "salaty"
+        }
+    },
+    {
+        "model": "recipe.category",
+        "pk": 2,
+        "fields": {
+            "title": "Первые блюда",
+            "slug": "pervye-blyuda"
+        }
+    },
+    {
+        "model": "recipe.category",
+        "pk": 3,
+        "fields": {
+            "title": "Вторые блюда",
+            "slug": "vtorye-blyuda"
+        }
+    },
+    {
+        "model": "recipe.category",
+        "pk": 4,
+        "fields": {
+            "title": "Десерты",
+            "slug": "deserty"
+        }
+    },
+    {
+        "model": "recipe.category",
+        "pk": 5,
+        "fields": {
+            "title": "Напитки",
+            "slug": "napitki"
+        }
+    }
 ]

@@ -7,7 +7,7 @@ from django.dispatch import receiver
 from django.conf import settings
 from django.utils.timezone import now
 import os
-
+from django.utils.text import slugify
 # @receiver(post_save, sender=User)
 # def create_user_profile(sender, instance, created, **kwargs):
 #     if created:
@@ -29,14 +29,21 @@ import os
     
 class Category(models.Model):
     """Категория рецепта"""
-    category = models.CharField(max_length=100, verbose_name='Категория', null=False, blank=False)
+    title = models.CharField(max_length=100, verbose_name='Категория', null=False, blank=False)
+    slug = models.SlugField(unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.category   
+        return self.title   
+
 
 def upload_recipe_photo(instance, filename):
     """

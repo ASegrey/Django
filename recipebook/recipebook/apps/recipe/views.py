@@ -2,7 +2,7 @@ import datetime
 from django.http import Http404, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
-from .models import Recipe #, UserProfile
+from .models import Recipe,Category #UserProfile
 from django.contrib.auth.models import User
 from .forms import RecipeForm, EditRecipeForm, SignUpForm
 from django.contrib.auth.forms import AuthenticationForm
@@ -33,9 +33,11 @@ def index(request):
     except EmptyPage:
         # Если запрашиваемая страница больше максимального числа страниц, возвращаем последнюю страницу результатов
         page = paginator.page(paginator.num_pages)
+    categories = Category.objects.all()
     context = {
         'latest_recipes_list': page,
         'paginator': paginator,
+        'categories': categories,
         }
     return render(request, 'recipe/book.html', context)
 
@@ -151,3 +153,31 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy('recipes:index'))
+
+def category_detail(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    recipes = Recipe.objects.filter(category=category)
+    # Создаем объект Paginator с количеством объектов на одной странице
+    paginator = Paginator(recipes, 10)
+    # Получаем номер текущей страницы из GET-запроса
+    page_number = request.GET.get('page', 1)
+    try:
+        # Извлекаем текущую страницу объектов
+        page = paginator.page(page_number)
+    except PageNotAnInteger:
+        # Если страница не является числом, возвращаем первую страницу
+        page = paginator.page(1)
+    except EmptyPage:
+        # Если запрашиваемая страница больше максимального числа страниц, возвращаем последнюю страницу результатов
+        page = paginator.page(paginator.num_pages)
+    categories = Category.objects.all()
+    
+    context = {
+        'category': category, 
+        'recipes': recipes,
+        'slug':slug,
+        'latest_recipes_list': recipes,
+        'paginator': paginator,
+        'categories': categories,
+        }
+    return render(request, 'recipe/category_detail.html', context)

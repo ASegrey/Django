@@ -4,6 +4,7 @@ from . import views
 app_name = 'recipes'
 urlpatterns = [
     path('', views.index, name = 'index'),
+    path('category/<slug:slug>/', views.category_detail, name='category_detail'),  # Страница категории
     path('login/', views.login_user, name='login_user'),
     path('logout/', views.logout_user, name='logout_user'),
     path('register/', views.RegisterUser.as_view(), name='register'),

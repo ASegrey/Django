@@ -37,8 +37,8 @@ class CategoryComment(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     model = Category
     list_display = (
-        'category',
+        'title',
     )
     search_fields = (
-        'category',
+        'title',
     )
