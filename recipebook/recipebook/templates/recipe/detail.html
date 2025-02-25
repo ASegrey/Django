@@ -10,21 +10,27 @@
     </div>
     <img src="{{ recipes.recipe_foto.url }}" class="card-img-top" alt="{{ recipes.recipe_title }}">
     <hr>
-    <p>Ингридиенты рецепта: {{recipes.recipe_ingredients}}</p>
-    <p>Описание рецепта: {{recipes.recipe_text}}</p>
-    <p>Шаги приготовления: {{recipes.recipe_preparation}}</p>
+    <p><strong>Ингридиенты рецепта:</strong> {{recipes.recipe_ingredients}}</p>
+    <p><strong>Описание рецепта:</strong> {{recipes.recipe_text}}</p>
+    <p><strong>Шаги приготовления:</strong> {{recipes.recipe_preparation}}</p>
     <em>Время приготовления: {{recipes.recipe_time}}</em><br>
     <em>Дата публикации {{recipes.pub_date}}</em><br>
-    <em>Опубликовал {{recipes.author}}</em><br>
+    <em>Опубликовал автор {{recipes.author}}</em><br>
 
     {%if recipes.was_published_recent%}
     <em>Состояние - Новый рецепт</em><br>
     {%endif%}
-
+    <hr>
+    <p>
+        <strong>
+            Комментарии:
+        </strong>
+    </p>
     <hr>
         {% if latest_comments_list %}
             {% for c in latest_comments_list%}
             <p>
+                Автор 
                 <strong>
                     {{c.author_name}}
                 </strong>
@@ -37,13 +43,18 @@
             Комментарии не найдены
         {% endif %}
     <hr>
+    {% if request.user.is_authenticated %}
     <form action="{% url 'recipes:leave_comment' recipes.id %}" method="POST"> 
         {% csrf_token %}
-        <input type="text" required="" placeholder="Ваше имя" name="name"><br>
+        {% comment %} <input type="text" required="" placeholder="Ваше имя" name="name"><br> {% endcomment %}
         <textarea name="text" required="" placeholder="Текст комментария" cols="30" rows="10"> </textarea><br>
         <button type="submit"> Оставить комментарий
         </button>
     </form>
+    {%else%}
+        <em>Чтобы оставить комментарий, авторизуйтесь</em>
+        <hr>
+    {%endif%}
     {% if auth_state %}
         <a href="{% url 'recipes:edit_recipe' recipes.id %}" class="btn btn-primary">Изменить рецепт</a>
     {% endif %}

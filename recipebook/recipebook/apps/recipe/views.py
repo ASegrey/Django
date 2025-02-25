@@ -42,7 +42,7 @@ def leave_comment(request, recipe_id):
         r = Recipe.objects.get(id = recipe_id)
     except:
         raise Http404("!Рецепт не найден!")
-    r.comment_set.create(author_name = request.POST['name'], author_text = request.POST['text'])
+    r.comment_set.create(author_name = request.user, author_text = request.POST['text'])
     return HttpResponseRedirect(reverse('recipes:detail',args=(r.id,)))
 
 
